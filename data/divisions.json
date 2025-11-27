@@ -1,0 +1,14 @@
+[
+    {
+        "slug": "ilmu-pengetahuan-dan-teknologi",
+        "title": "Ilmu Pengetahuan dan Teknologi",
+        "description": "Focusing on the advancement of science and technology within the organization.",
+        "content": "This division is responsible for all tech-related activities, workshops, and innovations. We aim to foster a culture of continuous learning and technological adaptation."
+    },
+    {
+        "slug": "seni-dan-budaya",
+        "title": "Seni dan Budaya",
+        "description": "Promoting art and culture to enrich the community spirit.",
+        "content": "Our goal is to preserve and celebrate our rich cultural heritage through various artistic expressions and cultural events."
+    }
+]

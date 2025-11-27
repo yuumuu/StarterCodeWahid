@@ -1,14 +1,56 @@
-<div class="container mx-auto p-6" x-data="{ slug: $store.global.params.slug }">
-    <div class="bg-white rounded-lg shadow-lg p-8">
-        <h1 class="text-4xl font-bold mb-4"
-            x-text="slug ? slug.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase()) : 'Loading...'"></h1>
-        <p class="text-gray-600 mb-4">Division Slug: <span class="font-mono bg-gray-100 px-2 py-1 rounded"
-                x-text="slug"></span></p>
-        <p class="text-lg">
-            This is the detail page for the division. In a real app, you would fetch data using this slug.
-        </p>
-        <div class="mt-6">
-            <a href="#/divisions" class="text-blue-600 hover:underline">&larr; Back to Divisions</a>
+<layout name="main">
+    <slot name="header">
+        <div class="container mx-auto px-4">
+            <include src="app/components/navbar.html"></include>
         </div>
-    </div>
-</div>
+    </slot>
+
+    <slot name="content">
+        <div class="container mx-auto p-6" x-data="item('data/divisions.json', 'slug', $store.global.params.slug)">
+            <div class="bg-white rounded-lg shadow-lg p-8 min-h-[300px]">
+                <!-- Loading State -->
+                <template x-if="loading">
+                    <div class="flex items-center justify-center h-full">
+                        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+                    </div>
+                </template>
+
+                <!-- Error State -->
+                <template x-if="!loading && error">
+                    <div class="text-center text-red-600">
+                        <h2 class="text-2xl font-bold mb-2">Error</h2>
+                        <p x-text="error"></p>
+                        <a href="#/divisions" class="mt-4 inline-block text-blue-600 hover:underline">Return to Divisions</a>
+                    </div>
+                </template>
+
+                <!-- Content State -->
+                <template x-if="!loading && item">
+                    <div>
+                        <h1 class="text-4xl font-bold mb-4 text-gray-900" x-text="item.title"></h1>
+                        <div class="mb-6">
+                            <span class="bg-blue-100 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded"
+                                x-text="item.slug"></span>
+                        </div>
+
+                        <p class="text-xl text-gray-600 mb-6" x-text="item.description"></p>
+
+                        <div class="prose max-w-none text-gray-700">
+                            <p x-text="item.content"></p>
+                        </div>
+
+                        <div class="mt-8 pt-6 border-t border-gray-100">
+                            <a href="#/divisions" class="flex items-center text-blue-600 hover:text-blue-800 transition">
+                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                                </svg>
+                                Back to Divisions
+                            </a>
+                        </div>
+                    </div>
+                </template>
+            </div>
+        </div>
+    </slot>
+</layout>

@@ -1,4 +1,4 @@
-const Framework = {
+window.Framework = {
     cache: {},
     plugins: {},
 
@@ -264,3 +264,45 @@ const Framework = {
         });
     }
 };
+
+// --- Alpine Helpers ---
+document.addEventListener('alpine:init', () => {
+    // Helper to fetch a collection (array)
+    Alpine.data('collection', (url) => ({
+        items: [],
+        loading: true,
+        error: null,
+        
+        async init() {
+            this.loading = true;
+            const data = await Framework.fetchJSON(url);
+            if (data) {
+                this.items = data;
+            } else {
+                this.error = 'Failed to load data';
+            }
+            this.loading = false;
+        }
+    }));
+
+    // Helper to fetch a single item by key/value
+    Alpine.data('item', (url, key, value) => ({
+        item: null,
+        loading: true,
+        error: null,
+        
+        async init() {
+            this.loading = true;
+            const data = await Framework.fetchJSON(url);
+            if (data) {
+                this.item = data.find(i => i[key] === value);
+                if (!this.item) {
+                    this.error = 'Item not found';
+                }
+            } else {
+                this.error = 'Failed to load data';
+            }
+            this.loading = false;
+        }
+    }));
+});

@@ -1,4 +1,4 @@
-const Store = {
+window.Store = {
     init() {
         // Initialize Alpine store
         document.addEventListener('alpine:init', () => {
@@ -34,4 +34,4 @@ const Store = {
     }
 };
 
-Store.init();
+window.Store.init();

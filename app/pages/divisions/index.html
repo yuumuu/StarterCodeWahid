@@ -1,16 +1,36 @@
-<div class="container mx-auto p-6">
-    <h1 class="text-3xl font-bold mb-6">Divisions</h1>
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <!-- Example Card -->
-        <a href="#/division/ilmu-pengetahuan-dan-teknologi"
-            class="block p-6 bg-white rounded-lg shadow hover:shadow-lg transition">
-            <h2 class="text-xl font-semibold mb-2">Ilmu Pengetahuan dan Teknologi</h2>
-            <p class="text-gray-600">Explore the latest in science and technology.</p>
-        </a>
+<layout name="main">
+    <slot name="header">
+        <div class="container mx-auto px-4">
+            <include src="app/components/navbar.html"></include>
+        </div>
+    </slot>
 
-        <a href="#/division/seni-dan-budaya" class="block p-6 bg-white rounded-lg shadow hover:shadow-lg transition">
-            <h2 class="text-xl font-semibold mb-2">Seni dan Budaya</h2>
-            <p class="text-gray-600">Discover art and culture.</p>
-        </a>
-    </div>
-</div>
+    <slot name="content">
+        <div class="container mx-auto p-6" x-data="collection('data/divisions.json')">
+            <h1 class="text-3xl font-bold mb-6">Divisions</h1>
+
+            <!-- Loading -->
+            <template x-if="loading">
+                <div class="flex justify-center p-12">
+                    <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+                </div>
+            </template>
+
+            <!-- Error -->
+            <template x-if="!loading && error">
+                <div class="text-red-600 p-4 bg-red-50 rounded" x-text="error"></div>
+            </template>
+
+            <!-- List -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" x-show="!loading && items.length">
+                <template x-for="division in items" :key="division.slug">
+                    <a :href="'#/division/' + division.slug"
+                        class="block p-6 bg-white rounded-lg shadow hover:shadow-lg transition">
+                        <h2 class="text-xl font-semibold mb-2" x-text="division.title"></h2>
+                        <p class="text-gray-600" x-text="division.description"></p>
+                    </a>
+                </template>
+            </div>
+        </div>
+    </slot>
+</layout>

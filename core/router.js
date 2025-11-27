@@ -1,10 +1,12 @@
-const Router = {
+window.Router = {
     routes: [],
     
     init(routes) {
         this.routes = routes;
         window.addEventListener('hashchange', () => this.handleHashChange());
         window.addEventListener('load', () => this.handleHashChange());
+        // Trigger immediately in case load already happened or we are late
+        this.handleHashChange();
     },
 
     async handleHashChange() {
