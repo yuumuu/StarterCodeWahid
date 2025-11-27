@@ -6,42 +6,79 @@
     </slot>
 
     <slot name="content">
-        <div x-data="{ 
-            title: 'Welcome to the Framework', 
-            users: [],
-            async loadUsers() {
-                Framework.usePlugin('loader', true);
-                const data = await Framework.fetchJSON('data/nama_data.json');
-                this.users = data;
-                setTimeout(() => Framework.usePlugin('loader', false), 500); // Simulate delay
-                Framework.usePlugin('toast', 'Users loaded successfully!');
-            }
-        }" x-init="loadUsers()">
+        <div class="container mx-auto px-4">
 
             <div class="text-center mb-12">
-                <h1 class="text-4xl font-bold text-gray-900 mb-4">{{ title }}</h1>
+                <h1 class="text-4xl font-bold text-gray-900 mb-4">Welcome to the Framework</h1>
                 <p class="text-lg text-gray-600">A lightweight, static SPA framework.</p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {% for user in users %}
-                <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition duration-300">
-                    <h3 class="text-xl font-semibold mb-2" x-text="user.name"></h3>
-                    <p class="text-gray-500" x-text="user.role"></p>
-                    <div class="mt-4">
-                        <span class="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full"
-                            x-text="user.status"></span>
+            <!-- Legacy Way -->
+            <div x-data="{ 
+                users: [],
+                async loadUsers() {
+                    // We use a unique ID for toast to distinguish
+                    Framework.usePlugin('loader', true);
+                    const data = await Framework.fetchJSON('data/users.json');
+                    this.users = data;
+                    setTimeout(() => Framework.usePlugin('loader', false), 500); 
+                    Framework.usePlugin('toast', 'Legacy: Users loaded!');
+                }
+            }" x-init="loadUsers()" class="mb-12 border-b pb-12">
+                <h2 class="text-2xl font-bold mb-4 text-gray-400">Legacy Data Loading (Manual)</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    {% for user in users %}
+                    <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition duration-300 opacity-75">
+                        <h3 class="text-xl font-semibold mb-2" x-text="user.name"></h3>
+                        <p class="text-gray-500" x-text="user.role"></p>
+                        <div class="mt-4">
+                            <span class="inline-block bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded-full"
+                                x-text="user.status"></span>
+                        </div>
                     </div>
+                    {% endfor %}
                 </div>
-                {% endfor %}
             </div>
 
+            <!-- Modern Way -->
+            <div class="mb-12">
+                <h2 class="text-2xl font-bold mb-4 text-blue-600">Modern Data Loading (Collection Helper)</h2>
+                <p class="mb-4 text-gray-600">Uses <code>collection()</code> helper and <code>x-init</code> for side
+                    effects.</p>
+
+                <div x-data="collection('data/users.json')" x-init="$watch('loading', val => {
+                        if (val) Framework.usePlugin('loader', true);
+                        else {
+                            Framework.usePlugin('loader', false);
+                            Framework.usePlugin('toast', 'Modern: Users loaded!', 'success');
+                        }
+                     })" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+                    <template x-for="user in items" :key="user.id">
+                        <div
+                            class="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition duration-300 border-2 border-blue-100">
+                            <h3 class="text-xl font-semibold mb-2" x-text="user.name"></h3>
+                            <p class="text-gray-500" x-text="user.role"></p>
+                            <div class="mt-4">
+                                <span class="inline-block px-2 py-1 rounded-full text-xs" :class="{
+                                        'bg-green-100 text-green-800': user.status === 'Active',
+                                        'bg-yellow-100 text-yellow-800': user.status === 'Away',
+                                        'bg-gray-100 text-gray-800': user.status === 'Offline'
+                                    }" x-text="user.status"></span>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+            </div>
+
+            <!-- Features Demo -->
             <div class="mt-12 p-6 bg-blue-50 rounded-xl border border-blue-100">
                 <h2 class="text-2xl font-bold mb-4">Features Demo</h2>
                 <ul class="list-disc list-inside space-y-2 text-gray-700">
                     <li><strong>Layouts:</strong> This page uses the 'main' layout.</li>
                     <li><strong>Includes:</strong> The navbar above is included dynamically.</li>
-                    <li><strong>Template Engine:</strong> The user list uses <code>{% for %}</code> syntax.</li>
+                    <li><strong>Template Engine:</strong> The user list uses <code>{% for %}</code> syntax (Legacy) and
+                        <code>x-for</code> (Modern).</li>
                     <li><strong>Store:</strong> Current Theme: <span x-text="$store.global.theme"
                             class="font-bold uppercase"></span></li>
                 </ul>
@@ -50,6 +87,7 @@
                     Test Toast Plugin
                 </button>
             </div>
+
         </div>
     </slot>
 </layout>

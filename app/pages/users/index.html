@@ -1,0 +1,43 @@
+<layout name="main">
+    <slot name="header">
+        <div class="container mx-auto px-4">
+            <include src="app/components/navbar.html"></include>
+        </div>
+    </slot>
+
+    <slot name="content">
+        <div class="container mx-auto p-6" x-data="collection('data/users.json')">
+            <h1 class="text-3xl font-bold mb-6">Users Directory</h1>
+
+            <!-- Loading -->
+            <template x-if="loading">
+                <div class="flex justify-center p-12">
+                    <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+                </div>
+            </template>
+
+            <!-- Error -->
+            <template x-if="!loading && error">
+                <div class="text-red-600 p-4 bg-red-50 rounded" x-text="error"></div>
+            </template>
+
+            <!-- List -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" x-show="!loading && items.length">
+                <template x-for="user in items" :key="user.id">
+                    <div class="bg-white p-6 rounded-lg shadow hover:shadow-lg transition">
+                        <div class="flex items-center justify-between mb-4">
+                            <h2 class="text-xl font-semibold text-gray-900" x-text="user.name"></h2>
+                            <span class="px-2 py-1 text-xs rounded-full" :class="{
+                                    'bg-green-100 text-green-800': user.status === 'Active',
+                                    'bg-yellow-100 text-yellow-800': user.status === 'Away',
+                                    'bg-gray-100 text-gray-800': user.status === 'Offline'
+                                }" x-text="user.status">
+                            </span>
+                        </div>
+                        <p class="text-gray-600" x-text="user.role"></p>
+                    </div>
+                </template>
+            </div>
+        </div>
+    </slot>
+</layout>
