@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Lightweight SPA</title>
+
+    <!-- TailwindCSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- DOMPurify -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.6/purify.min.js"></script>
+
+    <!-- Alpine.js Plugins -->
+    <!-- (Optional plugins can go here if needed) -->
+
+    <!-- Alpine.js Core -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.3/dist/cdn.min.js"></script>
+
+    <!-- Custom Styles -->
+    <style>
+        [x-cloak] {
+            display: none !important;
+        }
+
+        .fade-enter-active,
+        .fade-leave-active {
+            transition: opacity 0.3s ease;
+        }
+
+        .fade-enter-from,
+        .fade-leave-to {
+            opacity: 0;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50 text-gray-800 antialiased">
+
+    <!-- App Mount Point -->
+    <div id="app" x-data="App">
+        <!-- Router View -->
+        <div id="router-view"></div>
+    </div>
+
+    <!-- Framework Scripts -->
+    <script src="core/store.js"></script>
+    <script src="core/engine.js"></script>
+    <script src="core/router.js"></script>
+    <script src="routes.js"></script>
+    <script src="main.js"></script>
+</body>
+
+</html>

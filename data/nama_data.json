@@ -1,0 +1,6 @@
+[
+    { "id": 1, "name": "Alice Johnson", "role": "Frontend Developer", "status": "Active" },
+    { "id": 2, "name": "Bob Smith", "role": "Backend Engineer", "status": "Away" },
+    { "id": 3, "name": "Charlie Brown", "role": "UI/UX Designer", "status": "Active" },
+    { "id": 4, "name": "Diana Prince", "role": "Project Manager", "status": "Offline" }
+]

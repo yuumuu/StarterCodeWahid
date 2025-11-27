@@ -1,0 +1,55 @@
+<layout name="main">
+    <slot name="header">
+        <div class="container mx-auto px-4">
+            <include src="app/components/navbar.html"></include>
+        </div>
+    </slot>
+
+    <slot name="content">
+        <div x-data="{ 
+            title: 'Welcome to the Framework', 
+            users: [],
+            async loadUsers() {
+                Framework.usePlugin('loader', true);
+                const data = await Framework.fetchJSON('data/nama_data.json');
+                this.users = data;
+                setTimeout(() => Framework.usePlugin('loader', false), 500); // Simulate delay
+                Framework.usePlugin('toast', 'Users loaded successfully!');
+            }
+        }" x-init="loadUsers()">
+
+            <div class="text-center mb-12">
+                <h1 class="text-4xl font-bold text-gray-900 mb-4">{{ title }}</h1>
+                <p class="text-lg text-gray-600">A lightweight, static SPA framework.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {% for user in users %}
+                <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition duration-300">
+                    <h3 class="text-xl font-semibold mb-2" x-text="user.name"></h3>
+                    <p class="text-gray-500" x-text="user.role"></p>
+                    <div class="mt-4">
+                        <span class="inline-block bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded-full"
+                            x-text="user.status"></span>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <div class="mt-12 p-6 bg-blue-50 rounded-xl border border-blue-100">
+                <h2 class="text-2xl font-bold mb-4">Features Demo</h2>
+                <ul class="list-disc list-inside space-y-2 text-gray-700">
+                    <li><strong>Layouts:</strong> This page uses the 'main' layout.</li>
+                    <li><strong>Includes:</strong> The navbar above is included dynamically.</li>
+                    <li><strong>Template Engine:</strong> The user list uses <code>{% for %}</code> syntax.</li>
+                    <li><strong>Store:</strong> Current Theme: <span x-text="$store.global.theme"
+                            class="font-bold uppercase"></span></li>
+                </ul>
+                <button @click="Framework.usePlugin('toast', 'Hello from Button!', 'info')"
+                    class="mt-6 px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition">
+                    Test Toast Plugin
+                </button>
+            </div>
+        </div>
+    </slot>
+</layout>
