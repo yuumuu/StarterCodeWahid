@@ -2,30 +2,28 @@
     <slot name="header">
         <div class="container mx-auto px-4">
             <include src="app/components/navbar.html"></include>
-            <layout name="main">
-                <slot name="header">
-                    <div class="container mx-auto px-4">
-                        <include src="app/components/navbar.html"></include>
-                    </div>
-                </slot>
+        </div>
+    </slot>
 
-                <slot name="content">
-                    <div class="max-w-7xl mx-auto px-4 py-6">
-                        <div id="docs-root">
-                            <!-- External Docs Styles (Minified) -->
-                            <link rel="stylesheet" href="assets/docs/docs.min.css">
+    <div class="container mx-auto px-4">
+        <slot name="content">
+            <div class="max-w-7xl mx-auto px-4 py-6">
+                <div id="docs-root">
+                    <!-- External Docs Styles (Minified) -->
+                    <link rel="stylesheet" href="assets/docs/docs.min.css">
 
-                            <div id="docs-loading" class="docs-loading-wrap py-12">
-                                <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto">
-                                </div>
-                                <p class="text-gray-600 mt-4">Loading documentation...</p>
-                            </div>
-                            <div id="docs-error" class="hidden text-center py-8 text-red-600"></div>
-                            <div id="docs-content" class="hidden"></div>
+                    <div id="docs-loading" class="docs-loading-wrap py-12">
+                        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto">
                         </div>
+                        <p class="text-gray-600 mt-4">Loading documentation...</p>
                     </div>
+                    <div id="docs-error" class="hidden text-center py-8 text-red-600"></div>
+                    <div id="docs-content" class="hidden"></div>
+                </div>
+            </div>
 
-                    <!-- External Docs Script (Minified) -->
-                    <script src="assets/docs/docs.min.js"></script>
-                </slot>
-            </layout>
+            <!-- External Docs Script (Minified) -->
+            <script src="assets/docs/docs.min.js"></script>
+        </slot>
+    </div>
+</layout>
