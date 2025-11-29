@@ -5,5 +5,5 @@ const routes = [
   // { path: '/divisions', component: 'app/pages/divisions/index.html' },
   // { path: '/division/:slug', component: 'app/pages/divisions/detail.html' },
   // { path: '/users', component: 'app/pages/users/index.html' }, // ARCHIVED to app/pages/archive/divisions/users/
-  { path: "/404", component: "app/pages/404.html" },
+  { path: "/404", component: "app/pages/errors/404.html" },
 ];

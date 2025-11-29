@@ -1,0 +1,166 @@
+<div class="min-h-screen bg-gray-900 text-white p-6" x-data="devError()">
+    <div class="max-w-6xl mx-auto">
+        <!-- Header -->
+        <div class="bg-red-600 rounded-t-lg p-6 flex items-center justify-between">
+            <div class="flex items-center">
+                <svg class="w-8 h-8 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd"
+                        d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z"
+                        clip-rule="evenodd"></path>
+                </svg>
+                <div>
+                    <h1 class="text-2xl font-bold">Development Error</h1>
+                    <p class="text-red-100 text-sm">This detailed error is only shown in development mode</p>
+                </div>
+            </div>
+            <div class="text-sm bg-red-700 px-3 py-1 rounded">DEV MODE</div>
+        </div>
+
+        <!-- Error Details -->
+        <div class="bg-gray-800 p-6 border-l-4 border-red-600">
+            <div class="mb-4">
+                <h2 class="text-xl font-semibold mb-2 text-red-400">Error Message</h2>
+                <div class="bg-gray-900 p-4 rounded font-mono text-sm" x-text="errorMessage"></div>
+            </div>
+
+            <div class="mb-4" x-show="errorType">
+                <h2 class="text-xl font-semibold mb-2 text-red-400">Error Type</h2>
+                <div class="bg-gray-900 p-4 rounded font-mono text-sm" x-text="errorType"></div>
+            </div>
+
+            <div class="mb-4" x-show="componentPath">
+                <h2 class="text-xl font-semibold mb-2 text-blue-400">Component Path</h2>
+                <div class="bg-gray-900 p-4 rounded font-mono text-sm" x-text="componentPath"></div>
+            </div>
+        </div>
+
+        <!-- Stack Trace -->
+        <div class="bg-gray-800 p-6 border-l-4 border-yellow-600" x-show="stackTrace">
+            <h2 class="text-xl font-semibold mb-4 text-yellow-400">Stack Trace</h2>
+            <div class="bg-gray-900 p-4 rounded overflow-x-auto">
+                <pre class="text-sm font-mono text-gray-300" x-text="stackTrace"></pre>
+            </div>
+        </div>
+
+        <!-- Context -->
+        <div class="bg-gray-800 p-6 border-l-4 border-purple-600" x-show="context">
+            <h2 class="text-xl font-semibold mb-4 text-purple-400">Context</h2>
+            <div class="bg-gray-900 p-4 rounded overflow-x-auto">
+                <pre class="text-sm font-mono text-gray-300" x-text="JSON.stringify(context, null, 2)"></pre>
+            </div>
+        </div>
+
+        <!-- Suggestions -->
+        <div class="bg-gray-800 p-6 border-l-4 border-green-600 rounded-b-lg">
+            <h2 class="text-xl font-semibold mb-4 text-green-400">💡 Suggestions</h2>
+            <ul class="space-y-2 text-gray-300">
+                <li class="flex items-start">
+                    <svg class="w-5 h-5 text-green-400 mr-2 mt-0.5 flex-shrink-0" fill="currentColor"
+                        viewBox="0 0 20 20">
+                        <path fill-rule="evenodd"
+                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                            clip-rule="evenodd"></path>
+                    </svg>
+                    <span>Check the console for additional error details</span>
+                </li>
+                <li class="flex items-start">
+                    <svg class="w-5 h-5 text-green-400 mr-2 mt-0.5 flex-shrink-0" fill="currentColor"
+                        viewBox="0 0 20 20">
+                        <path fill-rule="evenodd"
+                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                            clip-rule="evenodd"></path>
+                    </svg>
+                    <span>Verify that all file paths and component names are correct</span>
+                </li>
+                <li class="flex items-start">
+                    <svg class="w-5 h-5 text-green-400 mr-2 mt-0.5 flex-shrink-0" fill="currentColor"
+                        viewBox="0 0 20 20">
+                        <path fill-rule="evenodd"
+                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                            clip-rule="evenodd"></path>
+                    </svg>
+                    <span>Check if required dependencies are loaded</span>
+                </li>
+                <li class="flex items-start">
+                    <svg class="w-5 h-5 text-green-400 mr-2 mt-0.5 flex-shrink-0" fill="currentColor"
+                        viewBox="0 0 20 20">
+                        <path fill-rule="evenodd"
+                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                            clip-rule="evenodd"></path>
+                    </svg>
+                    <span>Look for syntax errors in your HTML or JavaScript</span>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Actions -->
+        <div class="mt-6 flex gap-4">
+            <button onclick="location.reload()"
+                class="px-6 py-3 bg-blue-600 hover:bg-blue-700 rounded-lg transition flex items-center">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15">
+                    </path>
+                </svg>
+                Reload Page
+            </button>
+            <a href="#/" class="px-6 py-3 bg-gray-700 hover:bg-gray-600 rounded-lg transition flex items-center">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6">
+                    </path>
+                </svg>
+                Go Home
+            </a>
+            <button @click="copyError()"
+                class="px-6 py-3 bg-gray-700 hover:bg-gray-600 rounded-lg transition flex items-center">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z">
+                    </path>
+                </svg>
+                Copy Error
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+    function devError() {
+        return {
+            errorMessage: 'An error occurred',
+            errorType: '',
+            componentPath: '',
+            stackTrace: '',
+            context: null,
+
+            init() {
+                // Get error details from URL params or window.lastError
+                const urlParams = new URLSearchParams(window.location.search);
+                this.errorMessage = urlParams.get('message') || window.lastError?.message || 'An error occurred';
+                this.errorType = urlParams.get('type') || window.lastError?.name || '';
+                this.componentPath = urlParams.get('component') || window.lastError?.component || '';
+                this.stackTrace = window.lastError?.stack || '';
+                this.context = window.lastError?.context || null;
+            },
+
+            copyError() {
+                const errorText = `
+Error: ${this.errorMessage}
+Type: ${this.errorType}
+Component: ${this.componentPath}
+
+Stack Trace:
+${this.stackTrace}
+
+Context:
+${JSON.stringify(this.context, null, 2)}
+            `.trim();
+
+                navigator.clipboard.writeText(errorText).then(() => {
+                    alert('Error details copied to clipboard!');
+                });
+            }
+        };
+    }
+</script>

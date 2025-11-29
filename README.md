@@ -13,6 +13,8 @@ Alternatively, read below for quick reference.
 | Resource | Description |
 |----------|-------------|
 | **[GETTING_STARTED.md](docs/GETTING_STARTED.md)** | 5-minute quick start guide |
+| **[ERROR_HANDLING.md](docs/ERROR_HANDLING.md)** | Error handling & dev/production modes |
+| **[SKELETON.md](docs/SKELETON.md)** | Skeleton loader usage guide |
 | **[TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md)** | Solutions to common issues |
 | **[core/README.md](core/README.md)** | Framework internals deep dive |
 | **[docs/](docs/)** | Additional documentation files |
@@ -35,17 +37,6 @@ It focuses on **HTML-based Client-Side Rendering (CSR)**, where components are d
 ### Key Features
 - ✅ Zero build step - runs directly in the browser
 - ✅ HTML-first component system with Layouts & Slots
-- ✅ Hash-based routing with dynamic URL parameters
-- ✅ Global state management (Store)
-- ✅ Alpine.js integration for interactivity
-- ✅ Built-in data binding helpers
-- ✅ Caching and skeleton loading
-- ✅ XSS protection with DOMPurify
-
----
-
-## 🎯 Quick Start
-
 > **New to the framework?** Check out the detailed **[Getting Started Guide](docs/GETTING_STARTED.md)** for a step-by-step tutorial.
 
 
@@ -108,6 +99,7 @@ const routes = [
 ```
 StarterCode/
 ├── index.html              # Entry point
+├── config.js               # App configuration (dev/prod modes)
 ├── main.js                 # App initialization
 ├── routes.js               # Route definitions
 ├── app/
@@ -119,18 +111,27 @@ StarterCode/
 │       ├── home.html
 │       ├── about.html
 │       ├── docs.html       # Documentation page
-│       └── 404.html
+│       └── errors/         # Error pages
+│           ├── 404.html
+│           ├── 500.html
+│           ├── dev-error.html
+│           └── offline.html
 ├── core/                   # Framework core
 │   ├── engine.js           # Rendering engine
 │   ├── router.js           # Hash router
 │   ├── store.js            # State management
 │   ├── ui.js               # UI utilities
+│   ├── error-handler.js    # Error handling system
 │   └── styles/
 ├── assets/                 # Static assets
 │   ├── css/
 │   ├── js/
 │   └── media/
-└── data/                   # JSON data files
+├── data/                   # JSON data files
+└── docs/                   # Documentation
+    ├── ERROR_HANDLING.md
+    ├── SKELETON.md
+    └── ...
 ```
 
 ### Core Modules
@@ -141,6 +142,7 @@ StarterCode/
 | **router.js** | Hash-based routing, URL parameter parsing |
 | **store.js** | Global state management with Alpine integration |
 | **ui.js** | Skeleton loaders, caching, utility helpers |
+| **error-handler.js** | Error handling, dev/production modes, error pages |
 
 ---
 
@@ -383,6 +385,87 @@ CoreUI.Cache.set('users', data, 30 * 60 * 1000);
 // Get cache
 const cached = CoreUI.Cache.get('users');
 ```
+
+---
+
+## 🚨 Error Handling & Development Modes
+
+### Development vs Production
+
+The framework supports two modes with different error handling:
+
+**Development Mode** (default):
+- Detailed error pages with stack traces
+- Error logging to console
+- Debug information visible
+- No caching for easier development
+
+**Production Mode**:
+- User-friendly error messages
+- No technical details exposed
+- Minimal logging
+- Optimized caching
+
+### Switching Modes
+
+**Method 1: config.js**
+```javascript
+const AppConfig = {
+  mode: 'production', // or 'development'
+  // ...
+};
+```
+
+**Method 2: URL Parameter**
+```
+?mode=production
+```
+
+**Method 3: JavaScript**
+```javascript
+AppConfig.setMode('production');
+AppConfig.toggleMode(); // Toggle between modes
+```
+
+### Error Pages
+
+Beautiful error pages are automatically shown:
+- **404**: Page not found
+- **500**: Server error (production)
+- **dev-error**: Detailed error with stack trace (development)
+- **offline**: Network connectivity error
+
+### Error Handler API
+
+```javascript
+// Handle errors (auto-detects mode)
+try {
+  // Your code
+} catch (error) {
+  ErrorHandler.handle(error, {
+    component: 'UserList',
+    action: 'loadData',
+  });
+}
+
+// Show 404 page
+ErrorHandler.show404();
+
+// Get error history (for debugging)
+const errors = ErrorHandler.getHistory();
+```
+
+### Production Deployment Checklist
+
+Before deploying:
+1. ✅ Set `AppConfig.mode = 'production'` in `config.js`
+2. ✅ Test all error pages
+3. ✅ Verify no stack traces visible
+4. ✅ Check error logging is minimal
+5. ✅ Test offline page
+6. ✅ Verify caching enabled
+
+**See [ERROR_HANDLING.md](docs/ERROR_HANDLING.md) for complete documentation.**
 
 ---
 
