@@ -404,4 +404,4 @@ Encountering issues? Check out **[TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md)**
 
 ## 📝 License
 
-This is starter code for learning and development purposes.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
