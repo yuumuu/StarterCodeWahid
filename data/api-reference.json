@@ -1,0 +1,204 @@
+[
+  {
+    "title": "Component API Reference",
+    "items": [
+      {
+        "name": "collection(url)",
+        "type": "Alpine Data Helper",
+        "description": "Fetches a JSON array and provides loading/error states",
+        "usage": "<div x-data=\"collection('data/users.json')\">",
+        "properties": [
+          { "name": "items", "type": "Array", "description": "The fetched data" },
+          { "name": "loading", "type": "Boolean", "description": "Is data being fetched?" },
+          { "name": "error", "type": "String|null", "description": "Error message if load failed" }
+        ]
+      },
+      {
+        "name": "item(url, key, value)",
+        "type": "Alpine Data Helper",
+        "description": "Fetches a single item from JSON by key/value match",
+        "usage": "<div x-data=\"item('data/users.json', 'id', 1)\">",
+        "properties": [
+          { "name": "item", "type": "Object|null", "description": "The matched item" },
+          { "name": "loading", "type": "Boolean", "description": "Is data being fetched?" },
+          { "name": "error", "type": "String|null", "description": "Error message if load failed" }
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Router API",
+    "items": [
+      {
+        "name": "Router.navigate(path)",
+        "type": "Method",
+        "description": "Navigate to a route programmatically",
+        "example": "Router.navigate('/about')"
+      },
+      {
+        "name": "Router.routes",
+        "type": "Property",
+        "description": "Array of all defined routes",
+        "example": "console.log(Router.routes)"
+      }
+    ]
+  },
+  {
+    "title": "Store API",
+    "items": [
+      {
+        "name": "Store.set(key, value)",
+        "type": "Method",
+        "description": "Set a global state value",
+        "example": "Store.set('user', { name: 'John' })"
+      },
+      {
+        "name": "Store.get(key)",
+        "type": "Method",
+        "description": "Get a global state value",
+        "example": "const user = Store.get('user')"
+      },
+      {
+        "name": "Store.subscribe(key, callback)",
+        "type": "Method",
+        "description": "Watch for changes to a state value",
+        "example": "Store.subscribe('user', (newVal) => console.log(newVal))"
+      },
+      {
+        "name": "Store.getState()",
+        "type": "Method",
+        "description": "Get entire state object",
+        "example": "console.log(Store.getState())"
+      }
+    ]
+  },
+  {
+    "title": "Framework API",
+    "items": [
+      {
+        "name": "Framework.render(path, targetId)",
+        "type": "Method",
+        "description": "Render a component into target element",
+        "example": "Framework.render('app/pages/home.html', 'router-view')"
+      },
+      {
+        "name": "Framework.fetchJSON(url)",
+        "type": "Method",
+        "description": "Fetch and cache JSON data",
+        "example": "const data = await Framework.fetchJSON('data/users.json')"
+      },
+      {
+        "name": "Framework.plugin(name, fn)",
+        "type": "Method",
+        "description": "Register a custom plugin",
+        "example": "Framework.plugin('toast', (msg) => { /* ... */ })"
+      },
+      {
+        "name": "Framework.usePlugin(name, ...args)",
+        "type": "Method",
+        "description": "Use a registered plugin",
+        "example": "Framework.usePlugin('toast', 'Hello!')"
+      }
+    ]
+  },
+  {
+    "title": "Alpine.js Directives",
+    "items": [
+      {
+        "name": "x-data",
+        "type": "Directive",
+        "description": "Define component state",
+        "example": "<div x-data=\"{ count: 0 }\">"
+      },
+      {
+        "name": "x-text",
+        "type": "Directive",
+        "description": "Set element text content",
+        "example": "<span x-text=\"user.name\"></span>"
+      },
+      {
+        "name": "x-html",
+        "type": "Directive",
+        "description": "Set element HTML content",
+        "example": "<div x-html=\"richContent\"></div>"
+      },
+      {
+        "name": "@click",
+        "type": "Directive",
+        "description": "Handle click events",
+        "example": "<button @click=\"count++\">Click</button>"
+      },
+      {
+        "name": "@submit",
+        "type": "Directive",
+        "description": "Handle form submission",
+        "example": "<form @submit.prevent=\"handleSubmit\">"
+      },
+      {
+        "name": "x-show",
+        "type": "Directive",
+        "description": "Toggle display with CSS",
+        "example": "<div x-show=\"isVisible\"></div>"
+      },
+      {
+        "name": "x-if",
+        "type": "Directive",
+        "description": "Conditionally include in DOM",
+        "example": "<template x-if=\"isVisible\">Content</template>"
+      },
+      {
+        "name": "x-for",
+        "type": "Directive",
+        "description": "Loop over array",
+        "example": "<template x-for=\"item in items\"><div x-text=\"item\"></div></template>"
+      },
+      {
+        "name": ":class",
+        "type": "Directive",
+        "description": "Bind CSS classes dynamically",
+        "example": "<div :class=\"{ active: isActive }\"></div>"
+      },
+      {
+        "name": "x-bind",
+        "type": "Directive",
+        "description": "Bind attributes",
+        "example": "<img x-bind:src=\"imageSrc\">"
+      },
+      {
+        "name": "x-model",
+        "type": "Directive",
+        "description": "Two-way data binding",
+        "example": "<input x-model=\"username\">"
+      }
+    ]
+  },
+  {
+    "title": "CoreUI Helpers",
+    "items": [
+      {
+        "name": "CoreUI.Skeleton.text(lines)",
+        "type": "Method",
+        "description": "Generate skeleton text placeholder",
+        "example": "CoreUI.Skeleton.text(3)"
+      },
+      {
+        "name": "CoreUI.Skeleton.grid(count, columns)",
+        "type": "Method",
+        "description": "Generate skeleton grid placeholder",
+        "example": "CoreUI.Skeleton.grid(3, 3)"
+      },
+      {
+        "name": "CoreUI.Cache.set(key, value, ttl)",
+        "type": "Method",
+        "description": "Cache data with TTL (milliseconds)",
+        "example": "CoreUI.Cache.set('users', data, 30*60*1000)"
+      },
+      {
+        "name": "CoreUI.Cache.get(key)",
+        "type": "Method",
+        "description": "Retrieve cached data",
+        "example": "const data = CoreUI.Cache.get('users')"
+      }
+    ]
+  }
+]

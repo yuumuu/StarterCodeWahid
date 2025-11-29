@@ -1,0 +1,20 @@
+/* Lightweight scroll animations (assets/css/scroll-animate.css)
+   Use classes added by `assets/js/scroll-animate.js`.
+   - Elements should have `data-animate="fade-up"` etc.
+   - `animate-init` is applied initially; `in-view` toggles when visible.
+*/
+
+.animate-init { opacity: 0; transform: translateY(12px); transition: opacity .6s ease, transform .6s ease; will-change: transform, opacity; }
+.in-view { opacity: 1; transform: translateY(0); }
+
+/* Variants */
+.animate-fade-up.animate-init { transform: translateY(16px); }
+.animate-fade-left.animate-init { transform: translateX(12px); }
+.animate-fade-right.animate-init { transform: translateX(-12px); }
+.animate-zoom.animate-init { transform: scale(.98); opacity: 0; transition: opacity .5s ease, transform .5s ease; }
+.animate-zoom.in-view { transform: scale(1); opacity: 1; }
+
+/* If reduced motion is requested, disable transitions for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .animate-init { transition: none; transform: none; opacity: 1; }
+}

@@ -15,6 +15,8 @@ window.Router = {
     // Handle query params
     const [path, query] = hash.split("?");
 
+    console.log("[Router] Handling hash change:", path);
+
     // Find route
     let route = this.routes.find((r) => r.path === path);
     let params = {};
@@ -66,7 +68,9 @@ window.Router = {
     }
 
     // Load Page
+    console.log("[Router] Rendering component:", route.component);
     await Framework.render(route.component, "router-view");
+    console.log("[Router] Render completed for:", route.component);
 
     // Update Active Links (simple helper)
     document.querySelectorAll("[href]").forEach((el) => {

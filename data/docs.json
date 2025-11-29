@@ -1,0 +1,280 @@
+[
+  {
+    "id": "getting-started",
+    "title": "Getting Started",
+    "icon": "🚀",
+    "sections": [
+      {
+        "title": "Introduction",
+        "content": "StarterCode is an advanced lightweight SPA framework built with HTML, TailwindCSS, and Alpine.js. It runs entirely in the browser with zero build steps, featuring a custom engine for components, layouts, routing, and state management."
+      },
+      {
+        "title": "Quick Start",
+        "subsections": [
+          {
+            "heading": "Running the Project",
+            "content": "Since this framework uses fetch() to load components, you must serve it via a local server to avoid CORS errors.",
+            "options": [
+              "VS Code: Right-click index.html → 'Open with Live Server'",
+              "Python: python -m http.server",
+              "Node: npx serve ."
+            ]
+          }
+        ]
+      },
+      {
+        "title": "Your First Page",
+        "code": {
+          "language": "html",
+          "snippet": "<layout name=\"main\">\n    <slot name=\"content\">\n        <h1>My Page</h1>\n        <div x-data=\"{ count: 0 }\">\n            <button @click=\"count++\">\n                Count: <span x-text=\"count\"></span>\n            </button>\n        </div>\n    </slot>\n</layout>"
+        }
+      }
+    ]
+  },
+  {
+    "id": "routing",
+    "title": "Routing System",
+    "icon": "🗺️",
+    "sections": [
+      {
+        "title": "Basic Routing",
+        "content": "Routes are defined in routes.js. Each route maps a URL path to a component file.",
+        "code": {
+          "language": "javascript",
+          "snippet": "const routes = [\n    { path: '/', component: 'app/pages/home.html' },\n    { path: '/about', component: 'app/pages/about.html' },\n    { path: '/users', component: 'app/pages/users/index.html' },\n    { path: '/404', component: 'app/pages/404.html' }\n];"
+        }
+      },
+      {
+        "title": "Dynamic Routes",
+        "content": "Create dynamic routes with URL parameters using the colon syntax.",
+        "code": {
+          "language": "javascript",
+          "snippet": "const routes = [\n    { path: '/user/:id', component: 'app/pages/user-detail.html' },\n    { path: '/post/:slug', component: 'app/pages/post-detail.html' }\n];"
+        }
+      },
+      {
+        "title": "Accessing Route Parameters",
+        "content": "Access URL parameters through the Store.",
+        "code": {
+          "language": "html",
+          "snippet": "<div x-data=\"{ params: {} }\" @init=\"params = Alpine.store('params') || {}\">\n    <h1>User ID: <span x-text=\"params.id\"></span></h1>\n</div>"
+        }
+      },
+      {
+        "title": "Navigation",
+        "content": "Navigate using the Router API or regular links.",
+        "code": {
+          "language": "html",
+          "snippet": "<!-- Using links -->\n<a href=\"#/user/123\">View User</a>\n<a href=\"#/post/my-blog-post\">Read Post</a>\n\n<!-- Using JavaScript -->\n<script>\nRouter.navigate('/about');\n</script>"
+        }
+      }
+    ]
+  },
+  {
+    "id": "components",
+    "title": "Component System",
+    "icon": "🎨",
+    "sections": [
+      {
+        "title": "Creating Components",
+        "content": "Components are HTML files stored in app/components/ that can be reused across pages.",
+        "code": {
+          "language": "html",
+          "snippet": "<!-- app/components/card.html -->\n<div class=\"border rounded-lg p-4 shadow-md\">\n    <h3 class=\"font-bold\" x-text=\"title\"></h3>\n    <p x-text=\"description\"></p>\n</div>"
+        }
+      },
+      {
+        "title": "Using Components with Include",
+        "content": "Use the include tag to add components to your pages and pass properties.",
+        "code": {
+          "language": "html",
+          "snippet": "<include src=\"app/components/card.html\" \n         title=\"Welcome\" \n         description=\"This is a card component\">\n</include>"
+        }
+      },
+      {
+        "title": "Slots for Flexible Content",
+        "content": "Use slots to allow customizable content within components.",
+        "code": {
+          "language": "html",
+          "snippet": "<!-- app/components/modal.html -->\n<div class=\"modal\">\n    <slot name=\"header\"></slot>\n    <slot name=\"content\"></slot>\n    <slot name=\"footer\"></slot>\n</div>\n\n<!-- Usage -->\n<include src=\"app/components/modal.html\">\n    <slot name=\"header\"><h2>Confirm</h2></slot>\n    <slot name=\"content\"><p>Are you sure?</p></slot>\n    <slot name=\"footer\"><button>Yes</button> <button>No</button></slot>\n</include>"
+        }
+      }
+    ]
+  },
+  {
+    "id": "data-binding",
+    "title": "Data Binding & Helpers",
+    "icon": "📊",
+    "sections": [
+      {
+        "title": "Collection Helper",
+        "content": "The collection helper fetches a JSON array and makes it available to your template.",
+        "code": {
+          "language": "html",
+          "snippet": "<div x-data=\"collection('data/users.json')\">\n    <div x-show=\"loading\" class=\"text-center py-8\">Loading...</div>\n    \n    <div x-show=\"!loading && items.length > 0\">\n        <template x-for=\"user in items\">\n            <div class=\"p-4 border rounded\">\n                <h3 x-text=\"user.name\"></h3>\n                <p x-text=\"user.email\"></p>\n            </div>\n        </template>\n    </div>\n    \n    <div x-show=\"error\" x-text=\"error\" class=\"text-red-500\"></div>\n</div>"
+        }
+      },
+      {
+        "title": "Item Helper",
+        "content": "The item helper fetches a single item from a JSON array by key/value.",
+        "code": {
+          "language": "html",
+          "snippet": "<div x-data=\"item('data/users.json', 'id', 1)\">\n    <div x-show=\"loading\">Loading...</div>\n    \n    <div x-show=\"!loading && item\">\n        <h1 x-text=\"item.name\"></h1>\n        <p x-text=\"item.email\"></p>\n    </div>\n    \n    <div x-show=\"!loading && !item\" class=\"text-gray-500\">\n        User not found\n    </div>\n</div>"
+        }
+      },
+      {
+        "title": "Template Syntax",
+        "content": "Use special syntax for text interpolation, conditionals, and loops.",
+        "code": {
+          "language": "html",
+          "snippet": "<!-- Text Interpolation -->\n<p>Hello {{ name }}, you have {{ items.length }} items</p>\n\n<!-- Conditionals -->\n{% if isAdmin %}\n  <button>Delete User</button>\n{% endif %}\n\n<!-- Loops -->\n{% for item in items %}\n  <div x-text=\"item.title\"></div>\n{% endfor %}"
+        }
+      }
+    ]
+  },
+  {
+    "id": "state-management",
+    "title": "State Management",
+    "icon": "💾",
+    "sections": [
+      {
+        "title": "Global Store",
+        "content": "Use the Store to manage global application state that persists across page navigations.",
+        "code": {
+          "language": "javascript",
+          "snippet": "// Set a value\nStore.set('user', { name: 'John', role: 'admin' });\n\n// Get a value\nconst user = Store.get('user');\n\n// Subscribe to changes\nStore.subscribe('user', (newValue) => {\n    console.log('User updated:', newValue);\n});"
+        }
+      },
+      {
+        "title": "Using Store in Components",
+        "content": "Access Store values directly in your HTML templates using Alpine.",
+        "code": {
+          "language": "html",
+          "snippet": "<div x-data @init=\"Alpine.watch('appState', value => console.log(value))\">\n    <!-- Your template -->\n</div>\n\n<!-- Or in attributes -->\n<span x-text=\"Alpine.store('user')?.name\"></span>"
+        }
+      },
+      {
+        "title": "Local Alpine State",
+        "content": "Use x-data for component-level state that doesn't need to be global.",
+        "code": {
+          "language": "html",
+          "snippet": "<div x-data=\"{\n    isOpen: false,\n    count: 0,\n    items: [],\n    toggle() {\n        this.isOpen = !this.isOpen;\n    }\n}\">\n    <button @click=\"toggle()\" x-text=\"isOpen ? 'Close' : 'Open'\"></button>\n    <button @click=\"count++\" x-text=\"'Count: ' + count\"></button>\n</div>"
+        }
+      }
+    ]
+  },
+  {
+    "id": "architecture",
+    "title": "Architecture Overview",
+    "icon": "🏗️",
+    "sections": [
+      {
+        "title": "Project Structure",
+        "content": "The project is organized in a clean, modular structure:",
+        "tree": "StarterCode/\n├── index.html              # Entry point\n├── main.js                 # App initialization\n├── routes.js               # Route definitions\n├── app/\n│   ├── components/         # Reusable components\n│   ├── layouts/            # Layout templates\n│   └── pages/              # Page components\n├── core/                   # Framework core\n│   ├── engine.js           # Rendering engine\n│   ├── router.js           # Hash router\n│   ├── store.js            # State management\n│   └── ui.js               # UI utilities\n├── assets/                 # Static assets\n└── data/                   # JSON data files"
+      },
+      {
+        "title": "Core Engine Flow",
+        "content": "When a page is rendered, the framework follows this process:\n\n1. Fetch HTML file\n2. Process layouts (wrap content)\n3. Process includes (replace component tags)\n4. Transform templates (convert {{ }} syntax)\n5. Sanitize HTML (prevent XSS)\n6. Inject into DOM\n7. Reinitialize Alpine.js"
+      },
+      {
+        "title": "Key Modules",
+        "modules": [
+          {
+            "name": "engine.js",
+            "description": "Handles HTML loading, component includes, layouts, and template transformation"
+          },
+          {
+            "name": "router.js",
+            "description": "Implements hash-based routing with URL parameter parsing"
+          },
+          {
+            "name": "store.js",
+            "description": "Manages global state with Alpine integration"
+          },
+          {
+            "name": "ui.js",
+            "description": "Provides utility functions for skeleton loaders, caching, etc."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "advanced",
+    "title": "Advanced Topics",
+    "icon": "⚡",
+    "sections": [
+      {
+        "title": "Framework Plugins",
+        "content": "Create custom functionality with plugins.",
+        "code": {
+          "language": "javascript",
+          "snippet": "// Define a plugin\nFramework.plugin('logger', (message) => {\n    console.log('[App]', message);\n    return message;\n});\n\n// Use the plugin\nFramework.usePlugin('logger', 'User logged in');"
+        }
+      },
+      {
+        "title": "Caching Data",
+        "content": "Cache API responses locally to improve performance.",
+        "code": {
+          "language": "javascript",
+          "snippet": "// Check cache first\nlet users = CoreUI.Cache.get('users_v1');\n\nif (!users) {\n    // Fetch from API\n    users = await Framework.fetchJSON('data/users.json');\n    \n    // Cache for 30 minutes\n    CoreUI.Cache.set('users_v1', users, 30 * 60 * 1000);\n}\n\n// Clear cache when needed\nCorUI.Cache.clear('users_v1');"
+        }
+      },
+      {
+        "title": "Loading States & Skeletons",
+        "content": "Show skeleton loaders while content is loading.",
+        "code": {
+          "language": "html",
+          "snippet": "<div x-data=\"collection('data/users.json')\">\n    <!-- Show skeleton while loading -->\n    <template x-if=\"loading\">\n        <div x-html=\"CoreUI.Skeleton.grid(3, 1)\"></div>\n    </template>\n    \n    <!-- Show actual content when loaded -->\n    <template x-if=\"!loading && items.length > 0\">\n        <template x-for=\"user in items\">\n            <div class=\"p-4\"><span x-text=\"user.name\"></span></div>\n        </template>\n    </template>\n</div>"
+        }
+      }
+    ]
+  },
+  {
+    "id": "best-practices",
+    "title": "Best Practices",
+    "icon": "✅",
+    "sections": [
+      {
+        "title": "Component Design",
+        "tips": [
+          "Keep components single-responsibility - each component should do one thing well",
+          "Use named slots for flexible composition over props",
+          "Document required and optional attributes",
+          "Prefix CSS classes with component name to avoid conflicts"
+        ]
+      },
+      {
+        "title": "Performance Optimization",
+        "tips": [
+          "Cache JSON responses to reduce API calls",
+          "Use skeleton loaders for better UX while loading",
+          "Lazy-load heavy components or images",
+          "Minimize DOM manipulation in loops",
+          "Use Alpine's :key binding for list items"
+        ]
+      },
+      {
+        "title": "Code Organization",
+        "tips": [
+          "Use kebab-case for file names (my-component.html)",
+          "Group related components in subdirectories",
+          "Keep route definitions organized",
+          "Extract reusable logic into helper functions",
+          "Use consistent naming conventions"
+        ]
+      },
+      {
+        "title": "Security",
+        "tips": [
+          "Always sanitize user input with DOMPurify",
+          "Don't trust data from external APIs",
+          "Use HTTPS in production",
+          "Validate data on the client-side before display",
+          "Keep Alpine.js version up to date"
+        ]
+      }
+    ]
+  }
+]

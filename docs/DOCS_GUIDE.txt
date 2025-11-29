@@ -1,0 +1,82 @@
+👋 Welcome to StarterCode Documentation!
+
+## 📚 Dokumentasi Tersedia
+
+### Akses Dokumentasi
+
+1. **Interaktif (Recommended):**
+   - Buka aplikasi di browser: http://localhost:8000
+   - Klik "📚 Docs" di navbar
+   - Atau navigasi langsung ke: #/docs
+   - Tampilan yang nyaman, searchable, dan responsif
+
+2. **File Markdown:**
+   - GETTING_STARTED.md - Panduan 5 menit untuk memulai
+   - README.md - Dokumentasi lengkap
+   - TROUBLESHOOTING.md - Solusi masalah umum
+   - DOCUMENTATION_INDEX.md - Daftar isi semua dokumentasi
+
+### 🚀 Quick Start (Cepat!)
+
+Baru pertama kali? Mulai dari sini:
+1. Buka GETTING_STARTED.md
+2. Ikuti langkah-langkah setup
+3. Buat halaman pertama Anda
+4. Jelajahi dokumentasi interaktif
+
+### 📖 Konten Dokumentasi
+
+Interactive docs (#/docs) mencakup:
+✅ Getting Started - Panduan untuk pemula
+✅ Routing System - Cara membuat routing dinamis
+✅ Component System - Membangun komponen yang reusable
+✅ Data Binding - Menghubungkan data ke template
+✅ State Management - Mengelola state global dan lokal
+✅ Architecture - Penjelasan struktur framework
+✅ Advanced Topics - Fitur-fitur lanjutan
+✅ Best Practices - Tips dan trik
+
+### 🎯 Mulai Dari Sini
+
+1. Baca: GETTING_STARTED.md (6 KB)
+2. Jalankan: python -m http.server (atau gunakan Live Server)
+3. Kunjungi: http://localhost:8000
+4. Klik: "📚 Docs" di navbar
+5. Buat: Halaman pertama Anda!
+
+### 🐛 Ada Masalah?
+
+Cek TROUBLESHOOTING.md untuk:
+- Solusi CORS error
+- Component tidak loading
+- Routes tidak bekerja
+- Data tidak muncul
+- Dan banyak lagi...
+
+### 💡 Fitur Utama
+
+✨ Zero build step - langsung buka di browser
+✨ HTML-first components dengan layouts dan slots
+✨ Hash-based routing dengan dynamic parameters
+✨ Global state management dengan Store
+✨ Alpine.js integration untuk interactivity
+✨ Built-in data binding helpers (collection, item)
+✨ Caching dan skeleton loaders
+✨ XSS protection dengan DOMPurify
+✨ Smooth transitions dengan morphdom
+
+### 📊 Dokumentasi Size
+
+DOCUMENTATION_INDEX.md - 7.1 KB (Daftar isi lengkap)
+GETTING_STARTED.md - 6.1 KB (Quick start)
+README.md - 9.3 KB (Dokumentasi lengkap)
+TROUBLESHOOTING.md - 8.7 KB (FAQ & solusi)
+TOTAL: ~31 KB dokumentasi komprehensif
+
+---
+
+👉 NEXT STEP: Buka GETTING_STARTED.md sekarang!
+
+Atau langsung jalankan server dan kunjungi #/docs di aplikasi untuk dokumentasi interaktif yang lebih user-friendly.
+
+Happy coding! 🚀

@@ -73,6 +73,7 @@ window.CoreUI = (function () {
       return;
     Framework.__sc_render_installed = true;
     const original = Framework.render.bind(Framework);
+
     Framework.render = async function (componentPath, targetId) {
       const target = document.getElementById(targetId);
       if (target) {
@@ -81,7 +82,27 @@ window.CoreUI = (function () {
           target.innerHTML = Skeleton.grid(2, 2);
         } catch (e) {}
       }
-      return original(componentPath, targetId);
+      // Wait for original render to complete
+      const result = await original(componentPath, targetId);
+
+      // Give Alpine.js time to initialize new components
+      if (window.Alpine) {
+        await new Promise((resolve) => {
+          requestAnimationFrame(() => {
+            setTimeout(resolve, 100);
+          });
+        });
+      }
+
+      // Re-initialize scroll observer for newly added [data-animate] elements
+      if (
+        window.ScrollObserver &&
+        typeof window.ScrollObserver.reinit === "function"
+      ) {
+        window.ScrollObserver.reinit();
+      }
+
+      return result;
     };
   }
 
@@ -107,10 +128,53 @@ window.CoreUI = (function () {
   }
 
   // Expose API
+  // morph helper: reconcile new HTML into target element using best available method
+  function morph(target, html) {
+    if (!target) return Promise.resolve();
+
+    // Parse new HTML and extract scripts so we can execute them after DOM update
+    const tpl = document.createElement("template");
+    tpl.innerHTML = html;
+    const scripts = Array.from(tpl.content.querySelectorAll("script"));
+    scripts.forEach((s) => s.parentNode && s.parentNode.removeChild(s));
+
+    // Perform morphological update using best available tool
+    try {
+      if (window.Alpine && typeof Alpine.morph === "function") {
+        // Alpine's morph plugin expects HTML string or element
+        Alpine.morph(target, tpl.innerHTML);
+      } else if (window.morphdom && typeof window.morphdom === "function") {
+        // morphdom library available globally
+        window.morphdom(target, tpl.innerHTML);
+      } else {
+        // Fallback: replace entire innerHTML (least optimal)
+        target.innerHTML = tpl.innerHTML;
+      }
+    } catch (e) {
+      // On any error, fallback to direct replace
+      target.innerHTML = tpl.innerHTML;
+    }
+
+    // Execute scripts extracted from the new HTML (preserve attributes)
+    scripts.forEach((oldScript) => {
+      const newScript = document.createElement("script");
+      Array.from(oldScript.attributes).forEach((attr) =>
+        newScript.setAttribute(attr.name, attr.value)
+      );
+      newScript.appendChild(document.createTextNode(oldScript.innerHTML || ""));
+      document.head.appendChild(newScript);
+      // remove immediately to keep DOM clean; script already executed
+      document.head.removeChild(newScript);
+    });
+
+    return Promise.resolve();
+  }
+
   return {
     Skeleton,
     Cache,
     isSlow,
+    morph,
   };
 })();
 
