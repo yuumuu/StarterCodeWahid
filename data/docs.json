@@ -9,6 +9,14 @@
         "content": "StarterCode is an advanced lightweight SPA framework built with HTML, TailwindCSS, and Alpine.js. It runs entirely in the browser with zero build steps, featuring a custom engine for components, layouts, routing, and state management."
       },
       {
+        "title": "Installation",
+        "content": "Start by cloning the repository to your local machine.",
+        "code": {
+          "language": "bash",
+          "snippet": "git clone https://github.com/yuumuu/StarterCode.git\ncd StarterCode"
+        }
+      },
+      {
         "title": "Quick Start",
         "subsections": [
           {
@@ -46,26 +54,26 @@
       },
       {
         "title": "Dynamic Routes",
-        "content": "Create dynamic routes with URL parameters using the colon syntax.",
+        "content": "Create dynamic routes with URL parameters using the colon syntax. You can use multiple parameters in a single route.",
         "code": {
           "language": "javascript",
-          "snippet": "const routes = [\n    { path: '/user/:id', component: 'app/pages/user-detail.html' },\n    { path: '/post/:slug', component: 'app/pages/post-detail.html' }\n];"
+          "snippet": "const routes = [\n    { path: '/user/:id', component: 'app/pages/user-detail.html' },\n    { path: '/blog/:category/:slug', component: 'app/pages/blog-post.html' }\n];"
         }
       },
       {
         "title": "Accessing Route Parameters",
-        "content": "Access URL parameters through the Store.",
+        "content": "Parameters are automatically available in the global Store. Access them in your components via `Alpine.store('params')`.",
         "code": {
           "language": "html",
-          "snippet": "<div x-data=\"{ params: {} }\" @init=\"params = Alpine.store('params') || {}\">\n    <h1>User ID: <span x-text=\"params.id\"></span></h1>\n</div>"
+          "snippet": "<div x-data=\"{ id: null }\" \n     @init=\"id = Alpine.store('params').id\">\n    \n    <h1>Viewing User: <span x-text=\"id\"></span></h1>\n    \n    <!-- Use with data helpers -->\n    <div x-data=\"item('data/users.json', 'id', id)\">\n        <span x-text=\"item?.name\"></span>\n    </div>\n</div>"
         }
       },
       {
         "title": "Navigation",
-        "content": "Navigate using the Router API or regular links.",
+        "content": "Navigate using standard anchor tags with hash URLs.",
         "code": {
           "language": "html",
-          "snippet": "<!-- Using links -->\n<a href=\"#/user/123\">View User</a>\n<a href=\"#/post/my-blog-post\">Read Post</a>\n\n<!-- Using JavaScript -->\n<script>\nRouter.navigate('/about');\n</script>"
+          "snippet": "<a href=\"#/user/42\">View Profile</a>\n<a href=\"#/blog/tech/alpine-js-guide\">Read Article</a>"
         }
       }
     ]

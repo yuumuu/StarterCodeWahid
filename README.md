@@ -286,25 +286,43 @@ const routes = [
 ```
 
 ### Dynamic Routes with Parameters
+
+You can define routes with dynamic segments using the colon syntax (`:paramName`).
+
 ```javascript
 const routes = [
+    // Single parameter
     { path: '/user/:id', component: 'app/pages/user-detail.html' },
-    { path: '/post/:slug', component: 'app/pages/post-detail.html' }
+    
+    // Multiple parameters
+    { path: '/post/:category/:slug', component: 'app/pages/post-detail.html' }
 ];
 ```
 
-Access parameters in your page:
+#### Accessing Parameters
+Parameters are automatically extracted and stored in the global Store under the `params` key. You can access them in your HTML components using Alpine.js:
+
 ```html
+<!-- app/pages/user-detail.html -->
 <div x-data="{ params: {} }" 
-     @init="params = Alpine.store('params') || {}">
-    <h1>User ID: <span x-text="params.id"></span></h1>
+     @init="params = Alpine.store('params')">
+    
+    <h1>User Profile</h1>
+    <p>User ID: <span x-text="params.id"></span></p>
+    
+    <!-- Fetch data using the ID -->
+    <div x-data="item('data/users.json', 'id', params.id)">
+        <h2 x-text="item?.name"></h2>
+    </div>
 </div>
 ```
 
-Navigate with parameters:
+#### Navigation
+Navigate to dynamic routes just like any other link:
+
 ```html
-<a href="#/user/123">View User</a>
-<a href="#/post/my-blog-post">Read Post</a>
+<a href="#/user/123">View User 123</a>
+<a href="#/post/tech/new-framework">Read Post</a>
 ```
 
 ---

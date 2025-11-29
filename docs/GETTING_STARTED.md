@@ -8,13 +8,22 @@ Welcome to StarterCode! This guide will get you up and running in minutes.
 - A text editor (VS Code recommended)
 - Python 3 or Node.js (for local server - required!)
 
-## 🚀 Quick Start (5 minutes)
+## 📥 Installation
 
-### Step 1: Open the Project
+### Step 1: Clone the Repository
+
+```bash
+git clone https://github.com/yuumuu/StarterCode.git
+cd StarterCode
+```
+
+### Step 2: Open the Project
 
 Open this folder in VS Code or your favorite editor.
 
-### Step 2: Start a Local Server
+## 🚀 Quick Start (5 minutes)
+
+### Step 1: Start a Local Server
 
 Choose ONE method below:
 
@@ -174,8 +183,10 @@ Links use `#/path` syntax:
 ```html
 <a href="#/">Home</a>
 <a href="#/about">About</a>
-<a href="#/docs">Docs</a>
+<a href="#/user/123">User Profile (Dynamic)</a>
 ```
+
+> **Tip:** Learn more about dynamic routes (like `#/user/:id`) in the [README.md](../README.md#dynamic-routes-with-parameters).
 
 ### Layouts and Slots
 
@@ -237,6 +248,40 @@ Use `x-data` for state and `@click` for events:
 - **Start simple** - build a basic page, then add features
 - **Use components** - they're reusable and keep code organized
 - **Test locally first** - before deploying
+
+## 🎨 Customizing Your App
+
+### Adding Custom CSS
+1. Create your CSS file: `assets/css/style.css`
+2. Link it in `index.html` (after Tailwind):
+```html
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="assets/css/style.css"> <!-- Add this -->
+```
+
+### Adding Custom JavaScript
+1. Create your JS file: `assets/js/app.js`
+2. Link it in `index.html` (before closing body):
+```html
+<script src="assets/js/app.js"></script>
+</body>
+```
+
+### Configuring Tailwind
+You can customize Tailwind in the script tag in `index.html`:
+```html
+<script>
+    tailwind.config = {
+        theme: {
+            extend: {
+                colors: {
+                    primary: '#3b82f6',
+                }
+            }
+        }
+    }
+</script>
+```
 
 ## 🚢 Ready to Deploy?
 
