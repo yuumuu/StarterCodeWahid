@@ -245,10 +245,9 @@ window.Framework = {
 
   // --- Main Render Function ---
   async render(componentPath, targetId) {
-    console.log("[Framework] Starting render:", componentPath);
     const target = document.getElementById(targetId);
     if (!target) {
-      console.error("[Framework] Target element not found:", targetId);
+      console.error("Target element not found:", targetId);
       return;
     }
 
@@ -264,50 +263,33 @@ window.Framework = {
     // 4. Transform Template Syntax
     html = this.transformTemplate(html);
 
-    // 5. Sanitize (Careful not to strip Alpine attributes)
-    // DOMPurify needs to be configured to allow Alpine attributes.
-    // We did that in sanitize().
-    // However, transforming template first creates <template> tags which are safe.
-    // html = this.sanitize(html); // User requested mandatory XSS sanitizer.
-
-    // 6. Inject — prefer CoreUI.morph if available (preserves Alpine state when possible)
-    // TEMPORARY: Using fallback for debugging
+    // 5. Inject Content
     target.innerHTML = html;
-    // Execute scripts in replaced content
+    
+    // 6. Execute Scripts
     this.executeScripts(target);
 
-    // 7. Re-initialize Alpine.js components in newly loaded content
+    // 7. Re-initialize Alpine.js
     if (window.Alpine) {
-      console.log("[Framework] Reinitializing Alpine.js");
       try {
         if (typeof Alpine.initTree === "function") {
-          // destroyTree may exist in some Alpine helper builds
           if (typeof Alpine.destroyTree === "function") {
             try {
               Alpine.destroyTree(target);
-            } catch (e) {
-              /* ignore */
-            }
+            } catch (e) {}
           }
           await Alpine.initTree(target);
         } else if (typeof Alpine.init === "function") {
-          // Fallback for Alpine builds without initTree
           Alpine.init();
         }
       } catch (e) {
-        console.error("[Framework] Alpine reinit failed:", e);
-        // As a last resort try the generic init
         if (typeof Alpine.init === "function") {
           try {
             Alpine.init();
-          } catch (err) {
-            console.error(err);
-          }
+          } catch (err) {}
         }
       }
     }
-
-    console.log("[Framework] Render completed:", componentPath);
   },
 
   executeScripts(container) {
@@ -318,15 +300,8 @@ window.Framework = {
         newScript.setAttribute(attr.name, attr.value)
       );
       newScript.appendChild(document.createTextNode(oldScript.innerHTML));
-
-      // Execute by appending to head
       document.head.appendChild(newScript);
-
-      // Cleanup: Remove from head after execution (optional, but keeps DOM clean)
-      // Note: Script still runs even if removed immediately after append in most browsers
       document.head.removeChild(newScript);
-
-      // Remove the original script tag from the container so it doesn't show in the page
       oldScript.remove();
     });
   },

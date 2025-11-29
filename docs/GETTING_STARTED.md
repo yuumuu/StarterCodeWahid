@@ -249,6 +249,24 @@ Use `x-data` for state and `@click` for events:
 - **Use components** - they're reusable and keep code organized
 - **Test locally first** - before deploying
 
+## ⚡ Performance & Debugging
+
+### Using Minified Core Files
+By default, the project uses minified core files (`.min.js`) for better performance. These files are located in `core/` and are duplicates of the original `.js` files but with comments and whitespace removed.
+
+### Debugging the Framework
+If you need to debug the framework internals or understand how it works:
+
+1. Open `index.html`
+2. Change the script references from `.min.js` back to `.js`:
+```html
+<!-- Switch to these for debugging -->
+<script src="core/store.js"></script>
+<script src="core/engine.js"></script>
+<script src="core/router.js"></script>
+<script src="core/ui.js"></script>
+```
+
 ## 🎨 Customizing Your App
 
 ### Adding Custom CSS

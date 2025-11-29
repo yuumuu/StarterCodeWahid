@@ -5,17 +5,13 @@ window.Router = {
     this.routes = routes;
     window.addEventListener("hashchange", () => this.handleHashChange());
     window.addEventListener("load", () => this.handleHashChange());
-    // Trigger immediately in case load already happened or we are late
+    // Trigger immediately
     this.handleHashChange();
   },
 
   async handleHashChange() {
     let hash = window.location.hash.slice(1) || "/";
-
-    // Handle query params
     const [path, query] = hash.split("?");
-
-    console.log("[Router] Handling hash change:", path);
 
     // Find route
     let route = this.routes.find((r) => r.path === path);
@@ -56,23 +52,21 @@ window.Router = {
       };
     }
 
-    // Pre-route hook (optional)
+    // Pre-route hook
     if (route.beforeEnter) {
       const shouldProceed = await route.beforeEnter();
       if (!shouldProceed) return;
     }
 
-    // Clear HTML cache for this route to ensure skeleton shows on reload
+    // Clear HTML cache for this route
     if (window.Framework && window.Framework.cache) {
       delete window.Framework.cache[route.component];
     }
 
     // Load Page
-    console.log("[Router] Rendering component:", route.component);
     await Framework.render(route.component, "router-view");
-    console.log("[Router] Render completed for:", route.component);
 
-    // Update Active Links (simple helper)
+    // Update Active Links
     document.querySelectorAll("[href]").forEach((el) => {
       if (el.getAttribute("href") === "#" + path) {
         el.classList.add("active-link");
