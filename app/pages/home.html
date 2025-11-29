@@ -16,28 +16,41 @@
             <!-- Legacy Way -->
             <div x-data="{ 
                 users: [],
+                loading: true,
                 async loadUsers() {
-                    // We use a unique ID for toast to distinguish
+                    this.loading = true;
                     Framework.usePlugin('loader', true);
+                    // Simulate network delay to show skeleton
+                    await new Promise(resolve => setTimeout(resolve, 500));
                     const data = await Framework.fetchJSON('data/users.json');
                     this.users = data;
+                    this.loading = false;
                     setTimeout(() => Framework.usePlugin('loader', false), 500); 
                     Framework.usePlugin('toast', 'Legacy: Users loaded!');
                 }
             }" x-init="loadUsers()" class="mb-12 border-b pb-12">
                 <h2 class="text-2xl font-bold mb-4 text-gray-400">Legacy Data Loading (Manual)</h2>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    {% for user in users %}
-                    <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition duration-300 opacity-75">
-                        <h3 class="text-xl font-semibold mb-2" x-text="user.name"></h3>
-                        <p class="text-gray-500" x-text="user.role"></p>
-                        <div class="mt-4">
-                            <span class="inline-block bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded-full"
-                                x-text="user.status"></span>
-                        </div>
+                
+                <!-- Skeleton Loading State -->
+                <template x-if="loading">
+                    <div x-html="SkeletonLoader.grid(3, 3)"></div>
+                </template>
+
+                <!-- Actual Content -->
+                <template x-if="!loading">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <template x-for="user in users" :key="user.id">
+                            <div class="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition duration-300">
+                                <h3 class="text-xl font-semibold mb-2" x-text="user.name"></h3>
+                                <p class="text-gray-500" x-text="user.role"></p>
+                                <div class="mt-4">
+                                    <span class="inline-block bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded-full"
+                                        x-text="user.status"></span>
+                                </div>
+                            </div>
+                        </template>
                     </div>
-                    {% endfor %}
-                </div>
+                </template>
             </div>
 
             <!-- Modern Way -->
@@ -52,20 +65,30 @@
                             Framework.usePlugin('loader', false);
                             Framework.usePlugin('toast', 'Modern: Users loaded!', 'success');
                         }
-                     })" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                     })">
 
-                    <template x-for="user in items" :key="user.id">
-                        <div
-                            class="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition duration-300 border-2 border-blue-100">
-                            <h3 class="text-xl font-semibold mb-2" x-text="user.name"></h3>
-                            <p class="text-gray-500" x-text="user.role"></p>
-                            <div class="mt-4">
-                                <span class="inline-block px-2 py-1 rounded-full text-xs" :class="{
-                                        'bg-green-100 text-green-800': user.status === 'Active',
-                                        'bg-yellow-100 text-yellow-800': user.status === 'Away',
-                                        'bg-gray-100 text-gray-800': user.status === 'Offline'
-                                    }" x-text="user.status"></span>
-                            </div>
+                    <!-- Skeleton Loading State -->
+                    <template x-if="loading">
+                        <div x-html="SkeletonLoader.grid(3, 3)"></div>
+                    </template>
+
+                    <!-- Actual Content -->
+                    <template x-if="!loading">
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <template x-for="user in items" :key="user.id">
+                                <div
+                                    class="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition duration-300 border-2 border-blue-100">
+                                    <h3 class="text-xl font-semibold mb-2" x-text="user.name"></h3>
+                                    <p class="text-gray-500" x-text="user.role"></p>
+                                    <div class="mt-4">
+                                        <span class="inline-block px-2 py-1 rounded-full text-xs" :class="{
+                                                'bg-green-100 text-green-800': user.status === 'Active',
+                                                'bg-yellow-100 text-yellow-800': user.status === 'Away',
+                                                'bg-gray-100 text-gray-800': user.status === 'Offline'
+                                            }" x-text="user.status"></span>
+                                    </div>
+                                </div>
+                            </template>
                         </div>
                     </template>
                 </div>

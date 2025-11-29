@@ -1,0 +1,31 @@
+/* Core styles used by the StarterCode framework. */
+/* Includes a lightweight dot-pattern background and skeleton basics. */
+
+:root {
+  --sc-dot-color: rgba(59, 130, 246, 0.12);
+  --sc-bg: #f9fafb;
+}
+
+html {
+  background: radial-gradient(circle, var(--sc-dot-color) 1.5px, transparent 1.5px), var(--sc-bg);
+  background-size: 40px 40px;
+  background-attachment: fixed;
+}
+
+body {
+  background: transparent;
+  margin: 0;
+}
+
+/* Skeleton basics */
+.skeleton { background-color: #e5e7eb; border-radius: 0.375rem; }
+.skeleton-text { height: 1rem; margin-bottom: 0.5rem; }
+.skeleton-avatar { width: 3rem; height: 3rem; border-radius: 9999px; }
+
+/* Prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .skeleton { animation: none !important; }
+}
+
+/* Small helper to reduce repaints inside router-view */
+#router-view { contain: layout style paint; }

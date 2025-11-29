@@ -6,6 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Advanced Lightweight SPA</title>
 
+    <!-- DNS Prefetch & Preconnect untuk CDN -->
+    <link rel="dns-prefetch" href="https://cdn.tailwindcss.com">
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+
     <!-- TailwindCSS -->
     <script src="https://cdn.tailwindcss.com"></script>
 
@@ -18,7 +23,13 @@
     <!-- Alpine.js Core -->
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.3/dist/cdn.min.js"></script>
 
-    <!-- Custom Styles -->
+    <!-- Core framework styles (dot pattern, skeleton) -->
+    <link rel="stylesheet" href="core/styles/core.css">
+
+    <!-- Custom Styles CSS (project overrides) -->
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <!-- Inline Styles -->
     <style>
         [x-cloak] {
             display: none !important;
@@ -36,7 +47,7 @@
     </style>
 </head>
 
-<body class="bg-gray-50 text-gray-800 antialiased">
+<body class="text-gray-800 antialiased">
 
     <!-- App Mount Point -->
     <div id="app" x-data="App">
@@ -49,6 +60,12 @@
     <script src="core/engine.js"></script>
     <script src="core/router.js"></script>
     <script src="routes.js"></script>
+
+    <!-- Core UI utilities (skeleton/cache/helpers) -->
+    <script src="core/ui.js"></script>
+
+    <!-- Project-specific assets (for dev customization) -->
+    <script src="assets/js/app.js"></script>
     <script src="main.js"></script>
 </body>
 
