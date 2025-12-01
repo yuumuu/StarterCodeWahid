@@ -1,4 +1,4 @@
-<nav class="bg-white shadow-sm rounded-full transition-smooth">
+<nav class="bg-white shadow-sm rounded-full transition-smooth" x-data="{ mobileMenuOpen: false }">
     <div class="container mx-auto px-8 py-4">
         <div class="flex justify-between items-center">
             <!-- Logo -->
@@ -6,7 +6,7 @@
                 Staco
             </a>
 
-            <!-- Navigation Links -->
+            <!-- Desktop Navigation Links -->
             <div class="flex gap-6 items-center">
                 <a href="#/" class="nav-link text-gray-700 hover:text-teal-600 transition font-medium">
                     Home
@@ -36,6 +36,33 @@
                     GitHub
                 </a>
             </div>
+
+            <!-- Hamburger Menu Button (Mobile Only) -->
+            <button @click="mobileMenuOpen = !mobileMenuOpen" 
+                    class="hamburger" 
+                    :class="{ 'active': mobileMenuOpen }"
+                    aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
         </div>
+    </div>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu-overlay" 
+         :class="{ 'active': mobileMenuOpen }"
+         @click="mobileMenuOpen = false"></div>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" :class="{ 'active': mobileMenuOpen }">
+        <a href="#/" @click="mobileMenuOpen = false">Home</a>
+        <a href="#/features" @click="mobileMenuOpen = false">Features</a>
+        <a href="#/docs" @click="mobileMenuOpen = false">Docs</a>
+        <a href="#/about" @click="mobileMenuOpen = false">About</a>
+        <!-- <a href="#/divisions" @click="mobileMenuOpen = false">Examples</a> -->
+        <a href="https://github.com/yuumuu/Staco" target="_blank" @click="mobileMenuOpen = false">
+            GitHub
+        </a>
     </div>
 </nav>

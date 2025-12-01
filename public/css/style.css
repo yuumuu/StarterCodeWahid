@@ -144,12 +144,333 @@
    color: var(--color-indigo-500) !important;
 }
 
-/* ===== Responsive Adjustments ===== */
-@media (max-width: 768px) {
+/* ===== Hamburger Menu Styles ===== */
+.hamburger {
+   display: none;
+   flex-direction: column;
+   gap: 4px;
+   cursor: pointer;
+   padding: 8px;
+   z-index: 1001;
+}
 
+.hamburger span {
+   width: 24px;
+   height: 2px;
+   background-color: var(--color-teal-600);
+   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+   border-radius: 2px;
+}
+
+.hamburger.active span:nth-child(1) {
+   transform: rotate(45deg) translate(5px, 5px);
+}
+
+.hamburger.active span:nth-child(2) {
+   opacity: 0;
+}
+
+.hamburger.active span:nth-child(3) {
+   transform: rotate(-45deg) translate(7px, -6px);
+}
+
+/* Mobile Menu Overlay */
+.mobile-menu-overlay {
+   position: fixed;
+   top: 0;
+   left: 0;
+   right: 0;
+   bottom: 0;
+   background-color: rgba(0, 0, 0, 0.5);
+   z-index: 999;
+   opacity: 0;
+   visibility: hidden;
+   transition: all 0.3s ease;
+}
+
+.mobile-menu-overlay.active {
+   opacity: 1;
+   visibility: visible;
+}
+
+/* Mobile Menu */
+.mobile-menu {
+   position: fixed;
+   top: 0;
+   right: -100%;
+   width: 280px;
+   height: 100vh;
+   background: white;
+   box-shadow: -4px 0 20px rgba(0, 0, 0, 0.1);
+   z-index: 1000;
+   transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+   overflow-y: auto;
+   padding: 80px 24px 24px;
+}
+
+.mobile-menu.active {
+   right: 0;
+}
+
+.mobile-menu a {
+   display: block;
+   padding: 16px 0;
+   color: #374151;
+   font-weight: 500;
+   font-size: 1.125rem;
+   border-bottom: 1px solid #f3f4f6;
+   transition: all 0.2s ease;
+}
+
+.mobile-menu a:hover {
+   color: var(--color-teal-600);
+   padding-left: 8px;
+}
+
+.mobile-menu a:last-child {
+   border-bottom: none;
+}
+
+/* ===== Code Block Responsive Fixes ===== */
+pre,
+code {
+   overflow-x: auto;
+   -webkit-overflow-scrolling: touch;
+}
+
+pre {
+   max-width: 100%;
+   white-space: pre;
+   word-wrap: normal;
+}
+
+code {
+   word-break: break-word;
+   white-space: pre-wrap;
+}
+
+/* Code blocks in containers */
+.bg-gray-900 code,
+.bg-gray-800 code {
+   display: block;
+   overflow-x: auto;
+   white-space: pre;
+   word-wrap: normal;
+}
+
+/* ===== Responsive Adjustments ===== */
+
+/* Mobile First - Base styles for mobile */
+@media (max-width: 767px) {
+
+   /* Hamburger Menu - Show on mobile */
+   .hamburger {
+      display: flex;
+   }
+
+   /* Hide desktop navigation */
+   nav .flex.gap-6 {
+      display: none;
+   }
+
+   /* Container padding */
+   .container {
+      padding-left: 1rem;
+      padding-right: 1rem;
+   }
+
+   /* Typography */
+   h1 {
+      font-size: 2rem !important;
+      line-height: 2.5rem !important;
+   }
+
+   h2 {
+      font-size: 1.75rem !important;
+      line-height: 2.25rem !important;
+   }
+
+   h3 {
+      font-size: 1.25rem !important;
+      line-height: 1.75rem !important;
+   }
+
+   /* Buttons */
    .btn-teal,
    .btn-indigo {
-      padding: 0.5rem 1.5rem;
+      padding: 0.625rem 1.5rem;
       font-size: 0.875rem;
+      min-height: 44px;
+      /* Touch-friendly */
+   }
+
+   /* Button groups - stack vertically */
+   .flex.gap-4 {
+      flex-direction: column;
+      gap: 0.75rem;
+   }
+
+   .flex.gap-4 a,
+   .flex.gap-4 button {
+      width: 100%;
+      text-align: center;
+   }
+
+   /* Grid layouts - single column */
+   .grid {
+      grid-template-columns: 1fr !important;
+      gap: 1.5rem;
+   }
+
+   /* Cards */
+   .card-hover,
+   .bg-white.p-8,
+   .bg-white.p-6 {
+      padding: 1.25rem !important;
+   }
+
+   /* Navbar */
+   nav.rounded-full {
+      border-radius: 1rem;
+   }
+
+   nav .container {
+      padding: 1rem;
+   }
+
+   /* Hero sections */
+   .py-20 {
+      padding-top: 3rem !important;
+      padding-bottom: 3rem !important;
+   }
+
+   /* Code blocks - ensure horizontal scroll */
+   .bg-gray-900,
+   .bg-gray-800 {
+      padding: 1rem !important;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+   }
+
+   .bg-gray-900 code,
+   .bg-gray-800 code {
+      font-size: 0.75rem;
+      line-height: 1.25rem;
+   }
+
+   /* Text sizes */
+   .text-xl {
+      font-size: 1.125rem !important;
+   }
+
+   .text-2xl {
+      font-size: 1.5rem !important;
+   }
+
+   .text-5xl {
+      font-size: 2rem !important;
+   }
+
+   .text-6xl {
+      font-size: 2.25rem !important;
+   }
+
+   /* Spacing */
+   .mb-8 {
+      margin-bottom: 1.5rem !important;
+   }
+
+   .mb-12 {
+      margin-bottom: 2rem !important;
+   }
+
+   /* Max widths */
+   .max-w-3xl,
+   .max-w-4xl,
+   .max-w-5xl {
+      max-width: 100%;
+   }
+}
+
+/* Tablet */
+@media (min-width: 768px) and (max-width: 1023px) {
+
+   /* Hide hamburger on tablet and up */
+   .hamburger {
+      display: none;
+   }
+
+   /* Show desktop navigation */
+   nav .flex.gap-6 {
+      display: flex;
+      gap: 1rem;
+   }
+
+   /* Adjust grid for tablet */
+   .grid-cols-1.md\:grid-cols-2 {
+      grid-template-columns: repeat(2, 1fr);
+   }
+
+   .grid-cols-1.md\:grid-cols-2.lg\:grid-cols-3 {
+      grid-template-columns: repeat(2, 1fr);
+   }
+
+   /* Typography adjustments */
+   h1 {
+      font-size: 2.5rem !important;
+   }
+
+   h2 {
+      font-size: 2rem !important;
+   }
+
+   /* Container */
+   .container {
+      padding-left: 2rem;
+      padding-right: 2rem;
+   }
+}
+
+/* Desktop */
+@media (min-width: 1024px) {
+
+   /* Hide hamburger on desktop */
+   .hamburger {
+      display: none;
+   }
+
+   /* Show desktop navigation */
+   nav .flex.gap-6 {
+      display: flex;
+   }
+
+   /* Full grid layouts */
+   .grid-cols-1.md\:grid-cols-2.lg\:grid-cols-3 {
+      grid-template-columns: repeat(3, 1fr);
+   }
+}
+
+/* Touch device optimizations */
+@media (hover: none) and (pointer: coarse) {
+
+   /* Increase tap targets */
+   a,
+   button,
+   .nav-link {
+      min-height: 44px;
+      min-width: 44px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+   }
+
+   /* Remove hover effects on touch devices */
+   .card-hover:hover {
+      transform: none;
+   }
+
+   .btn-teal:hover,
+   .btn-indigo:hover {
+      transform: none;
    }
 }
