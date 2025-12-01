@@ -5,6 +5,11 @@
 document.addEventListener('alpine:initialized', () => {
     console.log('Alpine fully initialized, starting Router...');
     
+    // Initialize BasePath for GitHub Pages support
+    if (window.BasePath) {
+        BasePath.init();
+    }
+    
     // Initialize Router after Alpine is ready
     Router.init(routes);
     
