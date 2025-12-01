@@ -89,6 +89,13 @@ window.Router = {
       delete window.Framework.cache[route.component];
     }
 
+    // Update Document Title
+    if (route.title) {
+      document.title = route.title;
+    } else {
+      document.title = 'Staco - Advanced Lightweight SPA'; // Default title
+    }
+
     // Load Page
     await Framework.render(route.component, "router-view");
 
