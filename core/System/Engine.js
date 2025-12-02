@@ -243,6 +243,30 @@ window.Framework = {
     }
   },
 
+
+  // --- Extract Page Title from HTML ---
+  extractPageTitle(html) {
+    // Method 1: Look for <!-- title: Page Title --> comment
+    const titleCommentMatch = html.match(/<!--\s*title:\s*(.+?)\s*-->/i);
+    if (titleCommentMatch) {
+      return titleCommentMatch[1].trim();
+    }
+
+    // Method 2: Look for <meta name="page-title" content="Page Title">
+    const metaTitleMatch = html.match(/<meta\s+name=["']page-title["']\s+content=["'](.+?)["']\s*\/?>/i);
+    if (metaTitleMatch) {
+      return metaTitleMatch[1].trim();
+    }
+
+    // Method 3: Look for <title> tag (will be removed from content)
+    const titleTagMatch = html.match(/<title>(.+?)<\/title>/i);
+    if (titleTagMatch) {
+      return titleTagMatch[1].trim();
+    }
+
+    return null;
+  },
+
   // --- Main Render Function ---
   async render(componentPath, targetId) {
     const target = document.getElementById(targetId);
@@ -254,22 +278,33 @@ window.Framework = {
     // 1. Fetch Page
     let html = await this.fetchHTML(componentPath);
 
-    // 2. Process Layouts
+    // 2. Extract Page Title (before processing)
+    const pageTitle = this.extractPageTitle(html);
+    if (pageTitle) {
+      document.title = pageTitle;
+    }
+
+    // 3. Remove title-related tags from HTML (they shouldn't be in content)
+    html = html.replace(/<!--\s*title:\s*.+?\s*-->/gi, '');
+    html = html.replace(/<meta\s+name=["']page-title["']\s+content=["'].+?["']\s*\/?>/gi, '');
+    html = html.replace(/<title>.+?<\/title>/gi, '');
+
+    // 4. Process Layouts
     html = await this.processLayout(html);
 
-    // 3. Process Includes
+    // 5. Process Includes
     html = await this.processIncludes(html);
 
-    // 4. Transform Template Syntax
+    // 6. Transform Template Syntax
     html = this.transformTemplate(html);
 
-    // 5. Inject Content
+    // 7. Inject Content
     target.innerHTML = html;
     
-    // 6. Execute Scripts
+    // 8. Execute Scripts
     this.executeScripts(target);
 
-    // 7. Re-initialize Alpine.js with improved timing
+    // 9. Re-initialize Alpine.js with improved timing
     if (window.Alpine) {
       // Use a longer delay to ensure DOM is fully ready
       setTimeout(async () => {

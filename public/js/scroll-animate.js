@@ -90,14 +90,14 @@
     setTimeout(init, 100);
   });
 
-  // Also try to hook into Framework if available
-  if (typeof window.Framework !== 'undefined') {
-    const originalRender = window.Framework.render;
+  // Also try to hook into App (Framework alias) if available
+  if (typeof window.App !== 'undefined') {
+    const originalRender = window.App.render;
     if (originalRender) {
-      window.Framework.render = function(...args) {
+      window.App.render = function(...args) {
         const result = originalRender.apply(this, args);
         setTimeout(() => {
-          if (DEBUG) console.log('AOS: Framework render detected, re-initializing...');
+          if (DEBUG) console.log('AOS: App render detected, re-initializing...');
           init();
         }, 150);
         return result;

@@ -129,13 +129,6 @@ To use the division example in your app:
 <a href="#/divisions" class="nav-link">Examples</a>
 ```
 
-3. **Load data-helper** (optional) in `index.html`:
-```html
-<script src="public/js/examples/data-helper.js"></script>
-```
-
-> [!NOTE]
-> **About DataHelper**: The `data-helper.js` file included in the examples is specifically designed for the **Divisions** example data structure. It is **not** a dynamic helper for all tables or data types. For your own data models, you should create your own helper functions or use `Framework.fetchJSON()` directly.
 
 ## Why Staco?
 

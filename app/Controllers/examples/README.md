@@ -32,11 +32,6 @@ To use the division example in your app:
 <a href="#/divisions" class="nav-link">Divisions</a>
 ```
 
-3. **Load data-helper** (optional) in `index.html`:
-```html
-<script src="public/js/examples/data-helper.js"></script>
-```
-
 ## Learn More
 
 - **Controllers Documentation**: Visit `/docs` in the app
