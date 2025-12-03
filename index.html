@@ -7,6 +7,7 @@
     <title>Staco - Advanced Lightweight SPA</title>
 
     <!-- DNS Prefetch & Preconnect untuk CDN -->
+    <link rel="preconnect" href="https://cdn.tailwindcss.com">
     <link rel="dns-prefetch" href="https://cdn.tailwindcss.com">
     <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
     <link rel="preconnect" href="https://cdn.jsdelivr.net">
@@ -15,36 +16,193 @@
     <script src="https://cdn.tailwindcss.com"></script>
 
     <!-- DOMPurify -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.6/purify.min.js"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.6/purify.min.js"></script>
 
     <!-- Alpine.js Plugins -->
     <!-- (Optional plugins can go here if needed) -->
 
-    <!-- Alpine.js Core -->
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.3/dist/cdn.min.js"></script>
-
     <!-- morphdom (for smooth DOM morph updates - enables CoreUI.morph) -->
-    <script src="https://unpkg.com/morphdom@2.6.1/dist/morphdom-umd.min.js"></script>
+    <script defer src="https://unpkg.com/morphdom@2.6.1/dist/morphdom-umd.min.js"></script>
 
     <!-- App Configuration (must load before framework) -->
-    <script src="config/app.js"></script>
+    <script defer src="config/app.js"></script>
 
     <!-- Base Path Configuration (for GitHub Pages support) -->
-    <script src="config/base-path.js"></script>
+    <script defer src="config/base-path.js"></script>
 
     <!-- Error Handler (must load before framework) -->
-    <script src="core/System/ErrorHandler.min.js"></script>
+    <script defer src="core/System/ErrorHandler.min.js"></script>
 
-    <!-- Core framework styles (dot pattern, skeleton) -->
-    <link rel="stylesheet" href="core/styles/core.css">
+    <!-- Framework Scripts (Minified for performance) -->
+    <!-- To debug, switch to .js versions -->
+    <script defer src="core/System/Store.min.js"></script>
+    <script defer src="core/System/Engine.min.js"></script>
+    <script defer src="core/System/Router.min.js"></script>
 
-    <!-- Custom Styles CSS (project overrides) -->
-    <link rel="stylesheet" href="public/css/style.css">
-    <!-- Scroll animate styles (Hybrid: CSS transitions + JS trigger) -->
+    <!-- Routes Configuration -->
+    <script defer src="config/routes.js"></script>
+
+    <!-- Controller System (auto-loads controllers on demand) -->
+    <script defer src="core/System/Controller.js"></script>
+
+    <!-- Core UI utilities (skeleton/cache/helpers) -->
+    <script defer src="core/System/UI.min.js"></script>
+
+    <!-- Project-specific assets (for dev customization) -->
+    <script defer src="public/js/app.js"></script>
+    <!-- Scroll animate trigger (Hybrid: CSS + lightweight JS) -->
+    <script defer src="public/js/scroll-animate.js"></script>
+
+    <!-- Centralized Plugin System -->
+    <script defer src="app/Plugins/index.js"></script>
+
+    <!-- Main App Entry Point -->
+    <script defer src="main.js"></script>
+
+    <!-- Alpine.js Core (LAST to ensure all dependencies loaded) -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.3/dist/cdn.min.js"></script>
+
+    <!-- Core framework styles (dot pattern, skeleton) - INLINED -->
+    <!-- <link rel="stylesheet" href="core/styles/core.css"> -->
+
+    <!-- Custom Styles CSS (project overrides) - Critical CSS inlined, full deferred -->
+    <link rel="preload" href="public/css/style.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <noscript>
+        <link rel="stylesheet" href="public/css/style.css">
+    </noscript>
+
+    <!-- Scroll animate styles (Hybrid: CSS + lightweight JS) -->
     <link rel="stylesheet" href="public/css/scroll-animate-css.css">
 
     <!-- Inline Styles -->
     <style>
+        /* Critical CSS inlined from style.css */
+        :root {
+            --color-teal-50: #f0fdfa;
+            --color-teal-100: #ccfbf1;
+            --color-teal-200: #99f6e4;
+            --color-teal-300: #5eead4;
+            --color-teal-400: #2dd4bf;
+            --color-teal-500: #14b8a6;
+            --color-teal-600: #0d9488;
+            --color-teal-700: #0f766e;
+            --color-teal-800: #115e59;
+            --color-teal-900: #134e4a;
+            --color-indigo-50: #eef2ff;
+            --color-indigo-100: #e0e7ff;
+            --color-indigo-200: #c7d2fe;
+            --color-indigo-300: #a5b4fc;
+            --color-indigo-400: #818cf8;
+            --color-indigo-500: #6366f1;
+            --color-indigo-600: #4f46e5;
+            --color-indigo-700: #4338ca;
+            --color-indigo-800: #3730a3;
+            --color-indigo-900: #312e81
+        }
+
+        .btn-teal {
+            background-color: var(--color-teal-600);
+            color: #fff;
+            padding: .75rem 2rem;
+            border-radius: .5rem;
+            font-weight: 600;
+            transition: all .3s ease
+        }
+
+        .btn-teal:hover {
+            background-color: var(--color-teal-700);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(13, 148, 136, .3)
+        }
+
+        .btn-indigo {
+            background-color: var(--color-indigo-600);
+            color: #fff;
+            padding: .75rem 2rem;
+            border-radius: .5rem;
+            font-weight: 600;
+            transition: all .3s ease
+        }
+
+        .btn-indigo:hover {
+            background-color: var(--color-indigo-700);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(99, 102, 241, .3)
+        }
+
+        .text-gradient-teal {
+            background: linear-gradient(135deg, var(--color-teal-600), var(--color-teal-400));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text
+        }
+
+        .text-gradient-indigo {
+            background: linear-gradient(135deg, var(--color-indigo-600), var(--color-indigo-400));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text
+        }
+
+        .text-gradient-teal-indigo {
+            background: linear-gradient(135deg, var(--color-teal-600), var(--color-indigo-600));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text
+        }
+
+        .nav-link-active {
+            color: var(--color-teal-600) !important;
+            font-weight: 600
+        }
+
+        .transition-smooth {
+            transition: all .3s cubic-bezier(.4, 0, .2, 1)
+        }
+
+        /* Core styles inlined from core/styles/core.css */
+        :root {
+            --sc-dot-color: rgba(59, 130, 246, 0.12);
+            --sc-bg: #f9fafb;
+        }
+
+        html {
+            background: radial-gradient(circle, var(--sc-dot-color) 1.5px, transparent 1.5px), var(--sc-bg);
+            background-size: 40px 40px;
+            background-attachment: fixed;
+        }
+
+        body {
+            background: transparent;
+            margin: 0;
+        }
+
+        .skeleton {
+            background-color: #e5e7eb;
+            border-radius: 0.375rem;
+        }
+
+        .skeleton-text {
+            height: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .skeleton-avatar {
+            width: 3rem;
+            height: 3rem;
+            border-radius: 9999px;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .skeleton {
+                animation: none !important;
+            }
+        }
+
+        #router-view {
+            contain: layout style paint;
+        }
+
         [x-cloak] {
             display: none !important;
         }
@@ -69,31 +227,6 @@
         <div id="router-view"></div>
     </div>
 
-    <!-- Framework Scripts (Minified for performance) -->
-    <!-- To debug, switch to .js versions -->
-    <script src="core/System/Store.min.js"></script>
-    <script src="core/System/Engine.min.js"></script>
-    <script src="core/System/Router.min.js"></script>
-
-    <!-- Routes Configuration -->
-    <script src="config/routes.js"></script>
-
-    <!-- Controller System (auto-loads controllers on demand) -->
-    <script src="core/System/Controller.js"></script>
-
-    <!-- Core UI utilities (skeleton/cache/helpers) -->
-    <script src="core/System/UI.min.js"></script>
-
-    <!-- Project-specific assets (for dev customization) -->
-    <script src="public/js/app.js"></script>
-    <!-- Scroll animate trigger (Hybrid: CSS + lightweight JS) -->
-    <script src="public/js/scroll-animate.js"></script>
-
-    <!-- Centralized Plugin System -->
-    <script src="app/Plugins/index.js"></script>
-
-    <!-- Main App Entry Point -->
-    <script src="main.js"></script>
 </body>
 
 </html>

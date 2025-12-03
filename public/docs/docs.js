@@ -10,6 +10,24 @@
     }
 
     try {
+        // Load highlight.js and theme dynamically
+        if (!window.hljs) {
+            await new Promise((resolve, reject) => {
+                // Load CSS
+                const link = document.createElement('link');
+                link.rel = 'stylesheet';
+                link.href = 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css';
+                document.head.appendChild(link);
+
+                // Load JS
+                const s = document.createElement('script');
+                s.src = 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js';
+                s.onload = resolve;
+                s.onerror = reject;
+                document.head.appendChild(s);
+            });
+        }
+
         // Load marked.js dynamically
         if (!window.marked) {
             await new Promise((resolve, reject) => {
@@ -25,6 +43,17 @@
         const res = await fetch('README.md');
         if (!res.ok) throw new Error('Failed to fetch README.md (' + res.status + ')');
         const md = await res.text();
+
+        // Configure marked with highlight.js
+        if (window.marked && window.hljs) {
+            window.marked.setOptions({
+                highlight: function(code, lang) {
+                    const language = window.hljs.getLanguage(lang) ? lang : 'plaintext';
+                    return window.hljs.highlight(code, { language }).value;
+                },
+                langPrefix: 'hljs language-'
+            });
+        }
 
         // Convert to HTML and sanitize
         const raw = (window.marked && window.marked.parse) ? window.marked.parse(md) : window.marked(md);
@@ -112,7 +141,7 @@
                 const toggle = document.createElement('button');
                 toggle.type = 'button'; 
                 toggle.className = 'toc-toggle'; 
-                toggle.textContent = '▸'; 
+                toggle.textContent = '▾'; // Default open
                 toggle.style.border = 'none'; toggle.style.background = 'transparent'; toggle.style.cursor = 'pointer'; toggle.style.padding = '0 6px'; toggle.style.color = 'var(--muted)';
                 toggle.style.display = 'none'; // Hidden until child added
 
@@ -121,7 +150,7 @@
                 childrenUL.style.padding = '0 0 0 8px'; 
                 childrenUL.style.margin = '4px 0 0 0'; 
                 childrenUL.className = 'children';
-                childrenUL.style.display = 'none'; // Default hidden
+                childrenUL.style.display = 'block'; // Default open
 
                 container.appendChild(left); 
                 container.appendChild(toggle);
